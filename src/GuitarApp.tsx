@@ -1,30 +1,20 @@
+import { useEffect, useReducer } from "react";
 import { FooterApp } from "./components/FooterApp";
 import { HeaderApp } from "./components/HeaderApp";
 import { MainApp } from "./components/MainApp";
-import { useCart } from "./hooks/useCart";
+import { cartReducer, initialState } from "./reducers/cart-reducer";
 
 export const GuitarApp = () => {
-  const {
-    cart,
-    guitar,
-    handdleAddCard,
-    handdleDecreaseCard,
-    handdleRemoveCard,
-    handdleResetCart,
-  } = useCart();
+  const [state, dispatch] = useReducer(cartReducer, initialState);
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(state.cart));
+  }, [state.cart]);
 
   return (
     <>
-      <HeaderApp
-        cart={cart}
-        handdleRemoveCard={handdleRemoveCard}
-        handdleAddCard={handdleAddCard}
-        handdleDecreaseCard={handdleDecreaseCard}
-        handdleResetCart={handdleResetCart}
-      />
-
-      <MainApp guitar={guitar} handdleAddCard={handdleAddCard} />
-
+      <HeaderApp cart={state.cart} dispatch={dispatch} />
+      <MainApp guitar={state.data} dispatch={dispatch} />
       <FooterApp />
     </>
   );

@@ -1,21 +1,13 @@
+import { cartActions } from "../reducers/cart-reducer";
 import { Cart } from "../types/types";
 import { CartList } from "./CartList";
 
 type HeaderAppProps = {
   cart: Cart[];
-  handdleAddCard: (item: Cart) => void;
-  handdleRemoveCard: (id: number) => void;
-  handdleDecreaseCard: (id: number) => void;
-  handdleResetCart: () => void;
+  dispatch: React.Dispatch<cartActions>;
 };
 
-export const HeaderApp = ({
-  cart,
-  handdleAddCard,
-  handdleRemoveCard,
-  handdleDecreaseCard,
-  handdleResetCart,
-}: HeaderAppProps) => {
+export const HeaderApp = ({ cart, dispatch }: HeaderAppProps) => {
   const totalPrice = () => {
     return cart.reduce(
       (total, guitar) => total + guitar.price * guitar.quantity,
@@ -49,12 +41,7 @@ export const HeaderApp = ({
                   <p className="text-center">El carrito esta vacio</p>
                 ) : (
                   <>
-                    <CartList
-                      cart={cart}
-                      handdleAddCard={handdleAddCard}
-                      handdleRemoveCard={handdleRemoveCard}
-                      handdleDecreaseCard={handdleDecreaseCard}
-                    />
+                    <CartList cart={cart} dispatch={dispatch} />
                     <p className="text-end">
                       Total pagar:{" "}
                       <span className="fw-bold">${totalPrice()}</span>
@@ -63,7 +50,7 @@ export const HeaderApp = ({
                 )}
 
                 <button
-                  onClick={() => handdleResetCart()}
+                  onClick={() => dispatch({ type: "reset-cart" })}
                   className="btn btn-dark w-100 mt-3 p-2"
                 >
                   Vaciar Carrito

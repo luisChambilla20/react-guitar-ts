@@ -1,12 +1,13 @@
 import { CartItem } from "./CartItem";
-import { Cart, CartItemProps } from "../types/types";
+import { Cart } from "../types/types";
+import { cartActions } from "../reducers/cart-reducer";
 
-export const CartList = ({
-  cart,
-  handdleRemoveCard,
-  handdleAddCard,
-  handdleDecreaseCard,
-}: CartItemProps) => {
+type CartListProps = {
+  cart: Cart[];
+  dispatch: React.Dispatch<cartActions>;
+};
+
+export const CartList = ({ cart, dispatch }: CartListProps) => {
   return (
     <>
       <table className="w-100 table">
@@ -22,13 +23,7 @@ export const CartList = ({
 
         <tbody>
           {cart.map((item: Cart) => (
-            <CartItem
-              key={item.id}
-              item={item}
-              handdleRemoveCard={handdleRemoveCard}
-              handdleAddCard={handdleAddCard}
-              handdleDecreaseCard={handdleDecreaseCard}
-            />
+            <CartItem key={item.id} item={item} dispatch={dispatch} />
           ))}
         </tbody>
       </table>

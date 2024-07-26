@@ -1,12 +1,13 @@
+import { cartActions } from "../reducers/cart-reducer";
 import { Guitar } from "../types/types";
 
 type GuitarItemProps = {
-  unid: Guitar;
-  handdleAddCard: (newGuitar: Guitar) => void;
+  newGuitar: Guitar;
+  dispatch: React.Dispatch<cartActions>;
 };
 
-export const GuitarItem = ({ unid, handdleAddCard }: GuitarItemProps) => {
-  const { price, name, description, image } = unid;
+export const GuitarItem = ({ newGuitar, dispatch }: GuitarItemProps) => {
+  const { price, name, description, image } = newGuitar;
 
   return (
     <div className="col-md-6 col-lg-4 my-4 row align-items-center">
@@ -23,7 +24,7 @@ export const GuitarItem = ({ unid, handdleAddCard }: GuitarItemProps) => {
         <p className="fw-black text-primary fs-3">{`$${price}`}</p>
         <button
           onClick={() => {
-            handdleAddCard(unid);
+            dispatch({ type: "add-cart", payload: { newGuitar } });
           }}
           type="button"
           className="btn btn-dark w-100"

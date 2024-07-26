@@ -1,18 +1,12 @@
+import { cartActions } from "../reducers/cart-reducer";
 import { Cart } from "../types/types";
 
 type CartItemProps = {
   item: Cart;
-  handdleRemoveCard: (id: number) => void;
-  handdleAddCard: (item: Cart) => void;
-  handdleDecreaseCard: (id: number) => void;
+  dispatch: React.Dispatch<cartActions>;
 };
 
-export const CartItem = ({
-  item,
-  handdleRemoveCard,
-  handdleAddCard,
-  handdleDecreaseCard,
-}: CartItemProps) => {
+export const CartItem = ({ item, dispatch }: CartItemProps) => {
   return (
     <tr>
       <td>
@@ -26,7 +20,9 @@ export const CartItem = ({
       <td className="fw-bold">${item.price}</td>
       <td className="flex align-items-start gap-4">
         <button
-          onClick={() => handdleDecreaseCard(item.id)}
+          onClick={() =>
+            dispatch({ type: "decrease-cart", payload: { id: item.id } })
+          }
           type="button"
           className="btn btn-dark"
         >
@@ -34,7 +30,9 @@ export const CartItem = ({
         </button>
         {item.quantity}
         <button
-          onClick={() => handdleAddCard(item)}
+          onClick={() =>
+            dispatch({ type: "add-cart", payload: { newGuitar: item } })
+          }
           type="button"
           className="btn btn-dark"
         >
@@ -43,7 +41,9 @@ export const CartItem = ({
       </td>
       <td>
         <button
-          onClick={() => handdleRemoveCard(item.id)}
+          onClick={() =>
+            dispatch({ type: "remove-cart", payload: { id: item.id } })
+          }
           className="btn btn-danger"
           type="button"
         >
