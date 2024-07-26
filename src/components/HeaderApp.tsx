@@ -16,7 +16,6 @@ export const HeaderApp = ({
   handdleDecreaseCard,
   handdleResetCart,
 }: HeaderAppProps) => {
-  
   const totalPrice = () => {
     return cart.reduce(
       (total, guitar) => total + guitar.price * guitar.quantity,
@@ -49,17 +48,20 @@ export const HeaderApp = ({
                 {cart.length < 1 ? (
                   <p className="text-center">El carrito esta vacio</p>
                 ) : (
-                  <CartList
-                    cart={cart}
-                    handdleAddCard={handdleAddCard}
-                    handdleRemoveCard={handdleRemoveCard}
-                    handdleDecreaseCard={handdleDecreaseCard}
-                  />
+                  <>
+                    <CartList
+                      cart={cart}
+                      handdleAddCard={handdleAddCard}
+                      handdleRemoveCard={handdleRemoveCard}
+                      handdleDecreaseCard={handdleDecreaseCard}
+                    />
+                    <p className="text-end">
+                      Total pagar:{" "}
+                      <span className="fw-bold">${totalPrice()}</span>
+                    </p>
+                  </>
                 )}
 
-                <p className="text-end">
-                  Total pagar: <span className="fw-bold">${totalPrice()}</span>
-                </p>
                 <button
                   onClick={() => handdleResetCart()}
                   className="btn btn-dark w-100 mt-3 p-2"
